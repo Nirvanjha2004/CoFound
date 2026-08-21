@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ width="3200" height="4200" viewBox="0 0 3200 4200" role="img"
+ aria-labelledby="title desc">
+ <title id="title">CoFounder Full Multi-Agent Architecture</title>
+ <desc id="desc">Detailed architecture diagram showing how all CoFounder agents, tools, APIs, LLMs, the 11-node knowledge graph, MongoDB Atlas, and the frontend connect into one system.</desc>
+
+ <defs>
+ <style type="text/css"><![CDATA[
+ .bg { fill: #f7f4ef; }
+ .title { font-family: Georgia, 'Times New Roman', serif; font-size: 52px; font-weight: 700; fill: #1a1a18; }
+ .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 22px; fill: #4a4740; }
+ .layer-title { font-family: Georgia, 'Times New Roman', serif; font-size: 26px; font-weight: 700; fill: #1a1a18; }
+ .section-title { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 700; fill: #1a1a18; }
+ .box-title { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 15px; font-weight: 700; fill: #1a1a18; }
+ .box-sub { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 12px; fill: #3d3a34; }
+ .tiny { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; fill: #5a564c; }
+ .label { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #2a2824; }
+ .flow-label { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; font-weight: 600; fill: #6b3a1f; }
+ .legend-t { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; fill: #2a2824; }
+ .mono { font-family: Consolas, 'Courier New', monospace; font-size: 11px; fill: #2a2824; }
+ .zone { fill: #fffdf9; stroke: #d9d2c5; stroke-width: 2; rx: 18; }
+ .zone-user { fill: #eef6f2; stroke: #8fb9a5; }
+ .zone-fe { fill: #eef3f9; stroke: #8eabcb; }
+ .zone-api { fill: #f3efe8; stroke: #c4b59a; }
+ .zone-orch { fill: #f8efe6; stroke: #d4a574; }
+ .zone-agents { fill: #f4f0f7; stroke: #b5a4c9; }
+ .zone-research { fill: #eef7f4; stroke: #7eb8a4; }
+ .zone-tools { fill: #f7f0e8; stroke: #d2b08a; }
+ .zone-llm { fill: #f0f4ea; stroke: #9bb07e; }
+ .zone-db { fill: #eceff4; stroke: #8a97ad; }
+ .zone-graph { fill: #faf6ef; stroke: #c9b896; }
+ .card { fill: #ffffff; stroke: #cfc6b6; stroke-width: 1.5; rx: 10; }
+ .card-accent { fill: #ffffff; stroke: #c47a3a; stroke-width: 2; rx: 10; }
+ .card-orch { fill: #fff8f0; stroke: #c47a3a; stroke-width: 2.5; rx: 12; }
+ .card-agent { fill: #ffffff; stroke: #9b87b5; stroke-width: 1.5; rx: 10; }
+ .card-tool { fill: #fffaf4; stroke: #c9975e; stroke-width: 1.5; rx: 10; }
+ .card-llm { fill: #f7faf3; stroke: #7f9a5c; stroke-width: 1.5; rx: 10; }
+ .card-db { fill: #f5f7fb; stroke: #6f7f98; stroke-width: 1.5; rx: 10; }
+ .card-fe { fill: #f5f9fd; stroke: #6f90b5; stroke-width: 1.5; rx: 10; }
+ .node { fill: #fff; stroke: #b89a62; stroke-width: 1.5; rx: 8; }
+ .node-core { fill: #fff4e4; stroke: #c47a3a; stroke-width: 2; rx: 8; }
+ .arrow { fill: none; stroke: #6b5e4e; stroke-width: 2; marker-end: url(#arrowHead); }
+ .arrow-thick { fill: none; stroke: #c47a3a; stroke-width: 3; marker-end: url(#arrowHeadOrange); }
+ .arrow-dash { fill: none; stroke: #6f90b5; stroke-width: 2; stroke-dasharray: 7 5; marker-end: url(#arrowHeadBlue); }
+ .arrow-green { fill: none; stroke: #3d8a6e; stroke-width: 2; marker-end: url(#arrowHeadGreen); }
+ .arrow-purple { fill: none; stroke: #7a6496; stroke-width: 2; marker-end: url(#arrowHeadPurple); }
+ .arrow-muted { fill: none; stroke: #9a9184; stroke-width: 1.5; marker-end: url(#arrowHeadMuted); }
+ .badge { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; font-weight: 700; fill: #fff; }
+ .footer { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; fill: #6a655c; }
+ ]]></style>
+
+ <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+ <path d="M0,0 L9,3 L0,6 Z" fill="#6b5e4e"/>
+ </marker>
+ <marker id="arrowHeadOrange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+ <path d="M0,0 L9,3 L0,6 Z" fill="#c47a3a"/>
+ </marker>
+ <marker id="arrowHeadBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+ <path d="M0,0 L9,3 L0,6 Z" fill="#6f90b5"/>
+ </marker>
+ <marker id="arrowHeadGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+ <path d="M0,0 L9,3 L0,6 Z" fill="#3d8a6e"/>
+ </marker>
+ <marker id="arrowHeadPurple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+ <path d="M0,0 L9,3 L0,6 Z" fill="#7a6496"/>
+ </marker>
+ <marker id="arrowHeadMuted" markerWidth="8" markerHeight="8" refX="7" refY="2.5" orient="auto">
+ <path d="M0,0 L7,2.5 L0,5 Z" fill="#9a9184"/>
+ </marker>
+
+ <filter id="softShadow" x="-5%" y="-5%" width="110%" height="120%">
+ <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#1a1a18" flood-opacity="0.08"/>
+ </filter>
+ </defs>
+
+ <!-- Background -->
+ <rect width="3200" height="4200" class="bg"/>
+ <rect x="40" y="40" width="3120" height="4120" fill="none" stroke="#d9d2c5" stroke-width="2" rx="24"/>
+
+ <!-- ===================== HEADER ===================== -->
+ <text x="1600" y="110" text-anchor="middle" class="title">CoFounder - Full Multi-Agent Architecture</text>
+ <text x="1600" y="150" text-anchor="middle" class="subtitle">How every agent, tool, API route, LLM, graph node, and store connects into one living startup OS</text>
+ <text x="1600" y="182" text-anchor="middle" class="tiny">idea -&gt; orchestrator -&gt; planner -&gt; researchers -&gt; MongoDB graph | SSE live feed | voice/chat | surgical pivot | export</text>
+
+ <!-- Legend strip -->
+ <g transform="translate(120,210)">
+ <rect x="0" y="0" width="2960" height="70" class="zone" filter="url(#softShadow)"/>
+ <text x="30" y="28" class="section-title">Legend</text>
+ <line x1="30" y1="48" x2="90" y2="48" class="arrow-thick"/>
+ <text x="100" y="52" class="legend-t">Command / spawn</text>
+ <line x1="280" y1="48" x2="340" y2="48" class="arrow"/>
+ <text x="350" y="52" class="legend-t">Data / control flow</text>
+ <line x1="530" y1="48" x2="590" y2="48" class="arrow-dash"/>
+ <text x="600" y="52" class="legend-t">SSE / realtime stream</text>
+ <line x1="820" y1="48" x2="880" y2="48" class="arrow-green"/>
+ <text x="890" y="52" class="legend-t">Research / write-back</text>
+ <line x1="1120" y1="48" x2="1180" y2="48" class="arrow-purple"/>
+ <text x="1190" y="52" class="legend-t">Specialist agent call</text>
+ <rect x="1450" y="34" width="18" height="18" class="card-orch"/>
+ <text x="1480" y="48" class="legend-t">Orchestrator</text>
+ <rect x="1650" y="34" width="18" height="18" class="card-agent"/>
+ <text x="1680" y="48" class="legend-t">Agent</text>
+ <rect x="1800" y="34" width="18" height="18" class="card-tool"/>
+ <text x="1830" y="48" class="legend-t">Tool / Integration</text>
+ <rect x="2050" y="34" width="18" height="18" class="card-llm"/>
+ <text x="2080" y="48" class="legend-t">LLM</text>
+ <rect x="2200" y="34" width="18" height="18" class="card-db"/>
+ <text x="2230" y="48" class="legend-t">Persistence</text>
+ <rect x="2400" y="34" width="18" height="18" class="node-core"/>
+ <text x="2430" y="48" class="legend-t">Graph node</text>
+ <circle cx="2680" cy="43" r="12" fill="#c47a3a"/>
+ <text x="2675" y="47" class="badge">1</text>
+ <text x="2705" y="48" class="legend-t">Numbered primary flow</text>
+ </g>
+
+ <!-- ===================== L1 USER ===================== -->
+ <g transform="translate(120,310)">
+ <rect width="2960" height="160" class="zone zone-user" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L1 | Founder / User</text>
+ <text x="30" y="68" class="tiny">Single human in the loop - drops an idea, talks to the orb, approves pivots, exports when ready</text>
+
+ <rect x="80" y="90" width="200" height="50" class="card" filter="url(#softShadow)"/>
+ <text x="180" y="120" text-anchor="middle" class="box-title">Startup Idea</text>
+
+ <rect x="340" y="90" width="220" height="50" class="card" filter="url(#softShadow)"/>
+ <text x="450" y="120" text-anchor="middle" class="box-title">Voice (mic / TTS)</text>
+
+ <rect x="620" y="90" width="220" height="50" class="card" filter="url(#softShadow)"/>
+ <text x="730" y="120" text-anchor="middle" class="box-title">Chat / Text Prompt</text>
+
+ <rect x="900" y="90" width="240" height="50" class="card" filter="url(#softShadow)"/>
+ <text x="1020" y="120" text-anchor="middle" class="box-title">Approve / Pivot / Export</text>
+
+ <rect x="1200" y="90" width="260" height="50" class="card" filter="url(#softShadow)"/>
+ <text x="1330" y="120" text-anchor="middle" class="box-title">Watch Live Agent Feed</text>
+
+ <rect x="1520" y="90" width="280" height="50" class="card-accent" filter="url(#softShadow)"/>
+ <text x="1660" y="112" text-anchor="middle" class="box-title">Today's Priority</text>
+ <text x="1660" y="130" text-anchor="middle" class="tiny">one highest-ROI next action</text>
+
+ <text x="2100" y="115" class="box-sub">Entry: create workspace > graph born > agents start filling gaps</text>
+ <text x="2100" y="138" class="box-sub">Exit: export scaffold zip when revenue + product + tech ready</text>
+ </g>
+
+ <!-- Flow arrows L1 -> L2 -->
+ <path d="M400 470 L400 500" class="arrow-thick"/>
+ <path d="M730 470 L730 500" class="arrow-thick"/>
+ <path d="M1020 470 L1020 500" class="arrow-thick"/>
+ <circle cx="180" cy="490" r="14" fill="#c47a3a"/><text x="180" y="495" text-anchor="middle" class="badge">1</text>
+
+ <!-- ===================== L2 FRONTEND ===================== -->
+ <g transform="translate(120,510)">
+ <rect width="2960" height="320" class="zone zone-fe" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L2 | Frontend (Vite | React | TypeScript | React Flow | Zustand)</text>
+ <text x="30" y="68" class="tiny">cofounder-alpha.vercel.app | renders the living graph, voice orb, panels, and SSE chaos</text>
+
+ <!-- Canvas -->
+ <rect x="40" y="90" width="520" height="200" class="card-fe" filter="url(#softShadow)"/>
+ <text x="300" y="120" text-anchor="middle" class="section-title">Startup Canvas</text>
+ <text x="300" y="145" text-anchor="middle" class="tiny">React Flow | confidence rings | unlock logic | agent chips</text>
+ <rect x="70" y="165" width="140" height="40" class="node"/><text x="140" y="190" text-anchor="middle" class="label">NodeCard</text>
+ <rect x="230" y="165" width="140" height="40" class="node"/><text x="300" y="190" text-anchor="middle" class="label">Unlock UI</text>
+ <rect x="390" y="165" width="140" height="40" class="node"/><text x="460" y="190" text-anchor="middle" class="label">Agent Chips</text>
+ <text x="300" y="240" text-anchor="middle" class="mono">StartupCanvas.tsx | canvasLayout.ts</text>
+ <text x="300" y="262" text-anchor="middle" class="tiny">11 canonical nodes + custom research nodes</text>
+
+ <!-- Voice / Orchestrator UI -->
+ <rect x="590" y="90" width="420" height="200" class="card-fe" filter="url(#softShadow)"/>
+ <text x="800" y="120" text-anchor="middle" class="section-title">Orchestrator Orb</text>
+ <text x="800" y="145" text-anchor="middle" class="tiny">talk or type | tool-calling co-founder</text>
+ <rect x="620" y="165" width="160" height="40" class="card-orch"/><text x="700" y="190" text-anchor="middle" class="label">OrchestratorOrb</text>
+ <rect x="800" y="165" width="180" height="40" class="card"/><text x="890" y="190" text-anchor="middle" class="label">useVoiceOrchestrator</text>
+ <rect x="620" y="220" width="160" height="40" class="card"/><text x="700" y="245" text-anchor="middle" class="label">OrchestratorPanel</text>
+ <rect x="800" y="220" width="180" height="40" class="card"/><text x="890" y="245" text-anchor="middle" class="label">Deepgram STT/TTS UI</text>
+
+ <!-- Live feed -->
+ <rect x="1040" y="90" width="360" height="200" class="card-fe" filter="url(#softShadow)"/>
+ <text x="1220" y="120" text-anchor="middle" class="section-title">Live SSE Feed</text>
+ <text x="1220" y="145" text-anchor="middle" class="tiny">agent lines + graph updates</text>
+ <rect x="1070" y="165" width="140" height="40" class="card"/><text x="1140" y="190" text-anchor="middle" class="label">useSSEFeed</text>
+ <rect x="1230" y="165" width="140" height="40" class="card"/><text x="1300" y="190" text-anchor="middle" class="label">feed events</text>
+ <text x="1220" y="240" text-anchor="middle" class="mono">GET /api/feed</text>
+ <text x="1220" y="262" text-anchor="middle" class="tiny">info | progress | done | dialogue | error</text>
+
+ <!-- Panels -->
+ <rect x="1430" y="90" width="480" height="200" class="card-fe" filter="url(#softShadow)"/>
+ <text x="1670" y="120" text-anchor="middle" class="section-title">Panels &amp; Surfaces</text>
+ <rect x="1460" y="145" width="130" height="36" class="card"/><text x="1525" y="168" text-anchor="middle" class="label">LeftRail</text>
+ <rect x="1605" y="145" width="130" height="36" class="card"/><text x="1670" y="168" text-anchor="middle" class="label">RightPanel</text>
+ <rect x="1750" y="145" width="130" height="36" class="card"/><text x="1815" y="168" text-anchor="middle" class="label">NodeChat</text>
+ <rect x="1460" y="195" width="130" height="36" class="card"/><text x="1525" y="218" text-anchor="middle" class="label">DecisionJournal</text>
+ <rect x="1605" y="195" width="130" height="36" class="card"/><text x="1670" y="218" text-anchor="middle" class="label">ExportModal</text>
+ <rect x="1750" y="195" width="130" height="36" class="card"/><text x="1815" y="218" text-anchor="middle" class="label">AgentWorkGallery</text>
+ <text x="1670" y="265" text-anchor="middle" class="tiny">workspaceStore | useAgentActions | useWorkspace</text>
+
+ <!-- API client -->
+ <rect x="1940" y="90" width="360" height="200" class="card-fe" filter="url(#softShadow)"/>
+ <text x="2120" y="120" text-anchor="middle" class="section-title">API Client Layer</text>
+ <text x="2120" y="150" text-anchor="middle" class="mono">lib/api.ts</text>
+ <text x="2120" y="175" text-anchor="middle" class="tiny">POST /api/workspace</text>
+ <text x="2120" y="195" text-anchor="middle" class="tiny">POST /api/orchestrator/chat</text>
+ <text x="2120" y="215" text-anchor="middle" class="tiny">POST /api/agents/spawn*</text>
+ <text x="2120" y="235" text-anchor="middle" class="tiny">POST /api/voice/stt | /tts</text>
+ <text x="2120" y="255" text-anchor="middle" class="tiny">POST /api/export | integrations</text>
+
+ <!-- Config -->
+ <rect x="2330" y="90" width="590" height="200" class="card-fe" filter="url(#softShadow)"/>
+ <text x="2625" y="120" text-anchor="middle" class="section-title">Node " Agent Mapping</text>
+ <text x="2625" y="145" text-anchor="middle" class="mono">config/nodeAgents.ts</text>
+ <text x="2400" y="175" class="tiny">Idea Framer | Audience Scout | Market Analyst | Competitor Tracker</text>
+ <text x="2400" y="195" class="tiny">Revenue Modeler | Product Strategist | Tech Architect | Build Engineer</text>
+ <text x="2400" y="215" class="tiny">Launch Coordinator | Signal Observer | Growth Agent | Research Agent</text>
+ <text x="2625" y="250" text-anchor="middle" class="tiny">Each graph node type has a named specialist persona + agent_id</text>
+ </g>
+
+ <path d="M2120 830 L2120 860" class="arrow-thick"/>
+ <circle cx="2120" cy="850" r="14" fill="#c47a3a"/><text x="2120" y="855" text-anchor="middle" class="badge">2</text>
+ <path d="M1220 830 L1220 860" class="arrow-dash"/>
+
+ <!-- ===================== L3 API ===================== -->
+ <g transform="translate(120,870)">
+ <rect width="2960" height="230" class="zone zone-api" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L3 | FastAPI Gateway (Python 3.11 | Render)</text>
+ <text x="30" y="68" class="tiny">main.py bootstraps one GraphStore (Atlas or in-memory) | CORS | route groups under /api</text>
+
+ <rect x="40" y="95" width="380" height="110" class="card" filter="url(#softShadow)"/>
+ <text x="230" y="125" text-anchor="middle" class="box-title">workspace.py</text>
+ <text x="230" y="150" text-anchor="middle" class="tiny">POST /workspace | GET /workspace/{id}</text>
+ <text x="230" y="172" text-anchor="middle" class="tiny">create graph from idea | load full graph</text>
+
+ <rect x="450" y="95" width="380" height="110" class="card-accent" filter="url(#softShadow)"/>
+ <text x="640" y="125" text-anchor="middle" class="box-title">agents.py + orchestrator chat</text>
+ <text x="640" y="150" text-anchor="middle" class="tiny">/agents/spawn | /spawn-research-agents</text>
+ <text x="640" y="172" text-anchor="middle" class="tiny">/orchestrator/chat | tool-calling loop</text>
+
+ <rect x="860" y="95" width="300" height="110" class="card" filter="url(#softShadow)"/>
+ <text x="1010" y="125" text-anchor="middle" class="box-title">feed.py</text>
+ <text x="1010" y="150" text-anchor="middle" class="tiny">GET /feed | SSE stream</text>
+ <text x="1010" y="172" text-anchor="middle" class="tiny">sse/feed.py pub/sub bus</text>
+
+ <rect x="1190" y="95" width="300" height="110" class="card" filter="url(#softShadow)"/>
+ <text x="1340" y="125" text-anchor="middle" class="box-title">nodes.py</text>
+ <text x="1340" y="150" text-anchor="middle" class="tiny">node CRUD | approve | notes</text>
+ <text x="1340" y="172" text-anchor="middle" class="tiny">unlock + confidence updates</text>
+
+ <rect x="1520" y="95" width="300" height="110" class="card" filter="url(#softShadow)"/>
+ <text x="1670" y="125" text-anchor="middle" class="box-title">voice.py</text>
+ <text x="1670" y="150" text-anchor="middle" class="tiny">POST /voice/stt | /tts</text>
+ <text x="1670" y="172" text-anchor="middle" class="tiny">Deepgram proxy</text>
+
+ <rect x="1850" y="95" width="300" height="110" class="card" filter="url(#softShadow)"/>
+ <text x="2000" y="125" text-anchor="middle" class="box-title">export.py</text>
+ <text x="2000" y="150" text-anchor="middle" class="tiny">scaffold zip generation</text>
+ <text x="2000" y="172" text-anchor="middle" class="tiny">readme | stack | ui | rules</text>
+
+ <rect x="2180" y="95" width="300" height="110" class="card" filter="url(#softShadow)"/>
+ <text x="2330" y="125" text-anchor="middle" class="box-title">integrations.py</text>
+ <text x="2330" y="150" text-anchor="middle" class="tiny">GitHub | PostHog hooks</text>
+ <text x="2330" y="172" text-anchor="middle" class="tiny">build + observe signals</text>
+
+ <rect x="2510" y="95" width="410" height="110" class="card-db" filter="url(#softShadow)"/>
+ <text x="2715" y="125" text-anchor="middle" class="box-title">Store Bootstrap</text>
+ <text x="2715" y="150" text-anchor="middle" class="tiny">DEFAULT_STORE | AtlasGraphStore</text>
+ <text x="2715" y="172" text-anchor="middle" class="tiny">fallback MemoryGraphStore</text>
+ </g>
+
+ <path d="M640 1100 L640 1130" class="arrow-thick"/>
+ <circle cx="640" cy="1120" r="14" fill="#c47a3a"/><text x="640" y="1125" text-anchor="middle" class="badge">3</text>
+
+ <!-- ===================== L4 ORCHESTRATION BRAIN ===================== -->
+ <g transform="translate(120,1140)">
+ <rect width="2960" height="420" class="zone zone-orch" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L4 | Orchestration Brain - the single co-founder that coordinates everything</text>
+ <text x="30" y="68" class="tiny">Two faces of the same brain: session spawner (graph > plan > research) and conversational tool-caller (voice/chat > tools)</text>
+
+ <!-- Master Orchestrator -->
+ <rect x="40" y="95" width="700" height="290" class="card-orch" filter="url(#softShadow)"/>
+ <text x="390" y="130" text-anchor="middle" class="section-title">Master Orchestrator</text>
+ <text x="390" y="155" text-anchor="middle" class="mono">agents/orchestrator.py</text>
+ <text x="390" y="180" text-anchor="middle" class="tiny">spawn_research_session(workspace_id, trigger)</text>
+ <text x="70" y="215" class="label">1. Read workspace graph state</text>
+ <text x="70" y="238" class="label">2. Call Planner -&gt; queue ResearchTasks</text>
+ <text x="70" y="261" class="label">3. Kick researcher worker(s) (bounded)</text>
+ <text x="70" y="284" class="label">4. Clarify core idea via Gemini Pro</text>
+ <text x="70" y="307" class="label">5. publish_workspace_update + Dialogue Agent</text>
+ <text x="70" y="330" class="label">6. Stream every step to SSE feed</text>
+ <text x="70" y="360" class="tiny">Triggers: manual | workspace create | pivot | node approve | custom spawn</text>
+
+ <!-- Conversational -->
+ <rect x="780" y="95" width="700" height="290" class="card-orch" filter="url(#softShadow)"/>
+ <text x="1130" y="130" text-anchor="middle" class="section-title">Conversational Orchestrator</text>
+ <text x="1130" y="155" text-anchor="middle" class="mono">agents/conversational_orchestrator.py</text>
+ <text x="1130" y="180" text-anchor="middle" class="tiny">orchestrator_chat(workspace_id, message, history)</text>
+ <text x="810" y="215" class="label">" Graph snapshot injected into prompt</text>
+ <text x="810" y="238" class="label">" Gemini tool-calling (MAX_TOOL_ROUNDS=1)</text>
+ <text x="810" y="261" class="label">" Preflight intent > spawn_research_agents</text>
+ <text x="810" y="284" class="label">" Returns reply + speaking_text + ui_actions</text>
+ <text x="810" y="307" class="label">" Confirms actions for live feed visibility</text>
+ <text x="810" y="340" class="tiny">Persona: 'single AI co-founder coordinating specialist sub-agents'</text>
+
+ <!-- Tools -->
+ <rect x="1520" y="95" width="1400" height="290" class="card" filter="url(#softShadow)"/>
+ <text x="2220" y="130" text-anchor="middle" class="section-title">Orchestrator Tools (Gemini function calls)</text>
+ <text x="2220" y="155" text-anchor="middle" class="mono">agents/orchestrator_tools.py | TOOL_DECLARATIONS</text>
+
+ <rect x="1550" y="175" width="200" height="50" class="card-agent"/><text x="1650" y="205" text-anchor="middle" class="label">get_workspace_summary</text>
+ <rect x="1770" y="175" width="200" height="50" class="card-agent"/><text x="1870" y="205" text-anchor="middle" class="label">get_today_priority</text>
+ <rect x="1990" y="175" width="200" height="50" class="card-agent"/><text x="2090" y="205" text-anchor="middle" class="label">start_node_research</text>
+ <rect x="2210" y="175" width="220" height="50" class="card-accent"/><text x="2320" y="205" text-anchor="middle" class="label">spawn_research_agents</text>
+ <rect x="2450" y="175" width="220" height="50" class="card-agent"/><text x="2560" y="205" text-anchor="middle" class="label">spawn_research_session</text>
+ <rect x="2690" y="175" width="200" height="50" class="card-agent"/><text x="2790" y="205" text-anchor="middle" class="label">handoff_priority</text>
+
+ <rect x="1550" y="245" width="200" height="50" class="card-agent"/><text x="1650" y="275" text-anchor="middle" class="label">spawn_custom_task</text>
+ <rect x="1770" y="245" width="200" height="50" class="card-accent"/><text x="1870" y="275" text-anchor="middle" class="label">pivot_idea</text>
+ <rect x="1990" y="245" width="200" height="50" class="card-agent"/><text x="2090" y="275" text-anchor="middle" class="label">trigger_export</text>
+ <rect x="2210" y="245" width="220" height="50" class="card-agent"/><text x="2320" y="275" text-anchor="middle" class="label">request_ui_action</text>
+ <text x="2220" y="340" text-anchor="middle" class="tiny">execute_tool() routes into spawn / growth / diff classifier / export / UI actions</text>
+ </g>
+
+ <path d="M390 1560 L390 1590" class="arrow-thick"/>
+ <path d="M1130 1560 L1800 1590" class="arrow-purple"/>
+ <circle cx="390" cy="1580" r="14" fill="#c47a3a"/><text x="390" y="1585" text-anchor="middle" class="badge">4</text>
+
+ <!-- ===================== L5 SPECIALIST AGENTS ===================== -->
+ <g transform="translate(120,1600)">
+ <rect width="2960" height="520" class="zone zone-agents" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L5 | Specialist Agent Roster - every named brain in the system</text>
+ <text x="30" y="68" class="tiny">Orchestrator spawns / calls these; each owns a slice of the startup graph or a cross-cutting concern</text>
+
+ <!-- Core pipeline agents -->
+ <rect x="40" y="90" width="920" height="190" class="card" filter="url(#softShadow)"/>
+ <text x="500" y="120" text-anchor="middle" class="section-title">Core Pipeline Agents</text>
+
+ <rect x="60" y="145" width="200" height="110" class="card-accent" filter="url(#softShadow)"/>
+ <text x="160" y="175" text-anchor="middle" class="box-title">Planner</text>
+ <text x="160" y="198" text-anchor="middle" class="mono">planner.py</text>
+ <text x="160" y="220" text-anchor="middle" class="tiny">decompose graph gaps</text>
+ <text x="160" y="238" text-anchor="middle" class="tiny">> ResearchTask queue</text>
+
+ <rect x="280" y="145" width="200" height="110" class="card-accent" filter="url(#softShadow)"/>
+ <text x="380" y="175" text-anchor="middle" class="box-title">Researcher (N)</text>
+ <text x="380" y="198" text-anchor="middle" class="mono">researcher.py</text>
+ <text x="380" y="220" text-anchor="middle" class="tiny">Karpathy self-critique loop</text>
+ <text x="380" y="238" text-anchor="middle" class="tiny">tools > synthesize > score</text>
+
+ <rect x="500" y="145" width="200" height="110" class="card-agent" filter="url(#softShadow)"/>
+ <text x="600" y="175" text-anchor="middle" class="box-title">Dialogue Agent</text>
+ <text x="600" y="198" text-anchor="middle" class="mono">dialogue.py</text>
+ <text x="600" y="220" text-anchor="middle" class="tiny">synthesize brief</text>
+ <text x="600" y="238" text-anchor="middle" class="tiny">ask ONE targeted Q</text>
+
+ <rect x="720" y="145" width="220" height="110" class="card-agent" filter="url(#softShadow)"/>
+ <text x="830" y="175" text-anchor="middle" class="box-title">Idea Framer</text>
+ <text x="830" y="198" text-anchor="middle" class="mono">idea_framer.py</text>
+ <text x="830" y="220" text-anchor="middle" class="tiny">problem | solution</text>
+ <text x="830" y="238" text-anchor="middle" class="tiny">one_liner | confidence</text>
+
+ <!-- Cross-cutting -->
+ <rect x="990" y="90" width="960" height="190" class="card" filter="url(#softShadow)"/>
+ <text x="1470" y="120" text-anchor="middle" class="section-title">Cross-Cutting Control Agents</text>
+
+ <rect x="1010" y="145" width="170" height="110" class="card-accent" filter="url(#softShadow)"/>
+ <text x="1095" y="175" text-anchor="middle" class="box-title">Diff Classifier</text>
+ <text x="1095" y="198" text-anchor="middle" class="mono">diff_classifier.py</text>
+ <text x="1095" y="220" text-anchor="middle" class="tiny">surgical pivot</text>
+ <text x="1095" y="238" text-anchor="middle" class="tiny">reset only changed</text>
+
+ <rect x="1200" y="145" width="170" height="110" class="card-agent" filter="url(#softShadow)"/>
+ <text x="1285" y="175" text-anchor="middle" class="box-title">Growth Agent</text>
+ <text x="1285" y="198" text-anchor="middle" class="mono">growth_agent.py</text>
+ <text x="1285" y="220" text-anchor="middle" class="tiny">today's priority</text>
+ <text x="1285" y="238" text-anchor="middle" class="tiny">ranked ROI actions</text>
+
+ <rect x="1390" y="145" width="170" height="110" class="card-agent" filter="url(#softShadow)"/>
+ <text x="1475" y="175" text-anchor="middle" class="box-title">Export Agent</text>
+ <text x="1475" y="198" text-anchor="middle" class="mono">export_agent.py</text>
+ <text x="1475" y="220" text-anchor="middle" class="tiny">scaffold zip</text>
+ <text x="1475" y="238" text-anchor="middle" class="tiny">handoff package</text>
+
+ <rect x="1580" y="145" width="170" height="110" class="card-agent" filter="url(#softShadow)"/>
+ <text x="1665" y="175" text-anchor="middle" class="box-title">Build Observer</text>
+ <text x="1665" y="198" text-anchor="middle" class="mono">build_observer.py</text>
+ <text x="1665" y="220" text-anchor="middle" class="tiny">poll GitHub</text>
+ <text x="1665" y="238" text-anchor="middle" class="tiny">update Build node</text>
+
+ <rect x="1770" y="145" width="160" height="110" class="card-agent" filter="url(#softShadow)"/>
+ <text x="1850" y="175" text-anchor="middle" class="box-title">Observe Agent</text>
+ <text x="1850" y="198" text-anchor="middle" class="mono">observe_agent.py</text>
+ <text x="1850" y="220" text-anchor="middle" class="tiny">PostHog funnel</text>
+ <text x="1850" y="238" text-anchor="middle" class="tiny">detect drops</text>
+
+ <!-- Node-bound personas -->
+ <rect x="40" y="300" width="2880" height="190" class="card" filter="url(#softShadow)"/>
+ <text x="1480" y="335" text-anchor="middle" class="section-title">Node-Bound Specialist Personas (agent chips on the canvas)</text>
+ <text x="1480" y="358" text-anchor="middle" class="tiny">Mapped in NODE_AGENT_IDS / NODE_AGENT_CONFIG - researchers write into these node identities</text>
+
+ <rect x="70" y="380" width="210" height="80" class="node-core"/><text x="175" y="410" text-anchor="middle" class="label">Idea Framer</text><text x="175" y="432" text-anchor="middle" class="tiny">core_idea</text>
+ <rect x="300" y="380" width="210" height="80" class="node"/><text x="405" y="410" text-anchor="middle" class="label">Audience Scout</text><text x="405" y="432" text-anchor="middle" class="tiny">audience</text>
+ <rect x="530" y="380" width="210" height="80" class="node"/><text x="635" y="410" text-anchor="middle" class="label">Market Analyst</text><text x="635" y="432" text-anchor="middle" class="tiny">market_intelligence</text>
+ <rect x="760" y="380" width="210" height="80" class="node"/><text x="865" y="410" text-anchor="middle" class="label">Competitor Tracker</text><text x="865" y="432" text-anchor="middle" class="tiny">competitors</text>
+ <rect x="990" y="380" width="210" height="80" class="node"/><text x="1095" y="410" text-anchor="middle" class="label">Revenue Modeler</text><text x="1095" y="432" text-anchor="middle" class="tiny">revenue</text>
+ <rect x="1220" y="380" width="210" height="80" class="node"/><text x="1325" y="410" text-anchor="middle" class="label">Product Strategist</text><text x="1325" y="432" text-anchor="middle" class="tiny">product_vision</text>
+ <rect x="1450" y="380" width="210" height="80" class="node"/><text x="1555" y="410" text-anchor="middle" class="label">Tech Architect</text><text x="1555" y="432" text-anchor="middle" class="tiny">tech_stack</text>
+ <rect x="1680" y="380" width="210" height="80" class="node"/><text x="1785" y="410" text-anchor="middle" class="label">Build Engineer</text><text x="1785" y="432" text-anchor="middle" class="tiny">build</text>
+ <rect x="1910" y="380" width="210" height="80" class="node"/><text x="2015" y="410" text-anchor="middle" class="label">Launch Coordinator</text><text x="2015" y="432" text-anchor="middle" class="tiny">launch</text>
+ <rect x="2140" y="380" width="210" height="80" class="node"/><text x="2245" y="410" text-anchor="middle" class="label">Signal Observer</text><text x="2245" y="432" text-anchor="middle" class="tiny">observe</text>
+ <rect x="2370" y="380" width="210" height="80" class="node"/><text x="2475" y="410" text-anchor="middle" class="label">Growth Agent</text><text x="2475" y="432" text-anchor="middle" class="tiny">growth</text>
+ <rect x="2600" y="380" width="280" height="80" class="card-accent"/><text x="2740" y="410" text-anchor="middle" class="label">Research Agent</text><text x="2740" y="432" text-anchor="middle" class="tiny">custom_research (on demand)</text>
+ </g>
+
+ <path d="M380 2120 L380 2150" class="arrow-green"/>
+ <circle cx="380" cy="2140" r="14" fill="#3d8a6e"/><text x="380" y="2145" text-anchor="middle" class="badge">5</text>
+
+ <!-- ===================== L6 RESEARCH LOOP ===================== -->
+ <g transform="translate(120,2160)">
+ <rect width="2960" height="380" class="zone zone-research" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L6 | Research Loop Detail - Planner -&gt; Task Queue -&gt; Researcher -&gt; Critique -&gt; Graph Write</text>
+ <text x="30" y="68" class="tiny">Karpathy-style self-critique: attempt > tool scan > synthesize > score > retry until good enough or max_attempts</text>
+
+ <!-- Flow boxes -->
+ <rect x="60" y="110" width="280" height="140" class="card-orch" filter="url(#softShadow)"/>
+ <text x="200" y="150" text-anchor="middle" class="box-title">` Planner</text>
+ <text x="200" y="175" text-anchor="middle" class="tiny">reads workspace context</text>
+ <text x="200" y="195" text-anchor="middle" class="tiny">finds low-confidence / locked</text>
+ <text x="200" y="215" text-anchor="middle" class="tiny">emits focused ResearchTasks</text>
+ <text x="200" y="235" text-anchor="middle" class="mono">plan(workspace, store)</text>
+
+ <path d="M340 180 L390 180" class="arrow-thick"/>
+
+ <rect x="390" y="110" width="280" height="140" class="card-db" filter="url(#softShadow)"/>
+ <text x="530" y="150" text-anchor="middle" class="box-title">a Task Queue</text>
+ <text x="530" y="175" text-anchor="middle" class="tiny">MongoDB pending tasks</text>
+ <text x="530" y="195" text-anchor="middle" class="tiny">node_id | query | tools[]</text>
+ <text x="530" y="215" text-anchor="middle" class="tiny">attempts | max_attempts</text>
+ <text x="530" y="235" text-anchor="middle" class="mono">pop_pending_task()</text>
+
+ <path d="M670 180 L720 180" class="arrow-thick"/>
+
+ <rect x="720" y="110" width="320" height="140" class="card-accent" filter="url(#softShadow)"/>
+ <text x="880" y="150" text-anchor="middle" class="box-title">b Researcher Worker</text>
+ <text x="880" y="175" text-anchor="middle" class="tiny">execute_tools(query, tools)</text>
+ <text x="880" y="195" text-anchor="middle" class="tiny">Firecrawl | Reddit | Web | GH</text>
+ <text x="880" y="215" text-anchor="middle" class="tiny">synthesize_result via Flash</text>
+ <text x="880" y="235" text-anchor="middle" class="mono">research_loop | R1</text>
+
+ <path d="M1040 180 L1090 180" class="arrow-thick"/>
+
+ <rect x="1090" y="110" width="280" height="140" class="card-llm" filter="url(#softShadow)"/>
+ <text x="1230" y="150" text-anchor="middle" class="box-title">c Critique Scorer</text>
+ <text x="1230" y="175" text-anchor="middle" class="tiny">critique/scorer.py</text>
+ <text x="1230" y="195" text-anchor="middle" class="tiny">score evidence quality</text>
+ <text x="1230" y="215" text-anchor="middle" class="tiny">retry if score too low</text>
+ <text x="1230" y="235" text-anchor="middle" class="mono">score(result, task)</text>
+
+ <path d="M1370 180 L1420 180" class="arrow-green"/>
+
+ <rect x="1420" y="110" width="300" height="140" class="card-db" filter="url(#softShadow)"/>
+ <text x="1570" y="150" text-anchor="middle" class="box-title">d Graph Write-Back</text>
+ <text x="1570" y="175" text-anchor="middle" class="tiny">update node summary/notes</text>
+ <text x="1570" y="195" text-anchor="middle" class="tiny">confidence | status | sources</text>
+ <text x="1570" y="215" text-anchor="middle" class="tiny">unlock engine re-evaluates</text>
+ <text x="1570" y="235" text-anchor="middle" class="mono">status_from_confidence</text>
+
+ <path d="M1720 180 L1770 180" class="arrow-dash"/>
+
+ <rect x="1770" y="110" width="300" height="140" class="card-fe" filter="url(#softShadow)"/>
+ <text x="1920" y="150" text-anchor="middle" class="box-title">e Live Surfaces</text>
+ <text x="1920" y="175" text-anchor="middle" class="tiny">SSE agent progress lines</text>
+ <text x="1920" y="195" text-anchor="middle" class="tiny">workspace snapshot push</text>
+ <text x="1920" y="215" text-anchor="middle" class="tiny">canvas rings update live</text>
+ <text x="1920" y="235" text-anchor="middle" class="mono">feed.publish | UI refresh</text>
+
+ <!-- Side panel: spawn custom -->
+ <rect x="2120" y="110" width="780" height="230" class="card" filter="url(#softShadow)"/>
+ <text x="2510" y="145" text-anchor="middle" class="section-title">Parallel Custom Research Path</text>
+ <text x="2510" y="175" text-anchor="middle" class="tiny">spawn_research_agents - creates custom_research nodes + parallel sub-agents</text>
+ <text x="2160" y="210" class="label">User: 'research X, Y, and current solutions'</text>
+ <text x="2160" y="235" class="label">> Conversational Orchestrator tool call</text>
+ <text x="2160" y="260" class="label">> new graph nodes (custom_research)</text>
+ <text x="2160" y="285" class="label">> Research Agents run in parallel sessions</text>
+ <text x="2160" y="310" class="label">> evidence lands on new nodes + SSE stream</text>
+
+ <!-- Retry note -->
+ <path d="M1230 250 L1230 280 L880 280 L880 250" class="arrow-muted"/>
+ <text x="1055" y="300" text-anchor="middle" class="flow-label">retry loop (max_attempts)</text>
+ </g>
+
+ <!-- ===================== L7 TOOLS ===================== -->
+ <g transform="translate(120,2570)">
+ <rect width="2960" height="250" class="zone zone-tools" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L7 | External Tools &amp; Integrations (evidence + signals)</text>
+ <text x="30" y="68" class="tiny">Researchers and specialist agents call these - no headless browser process required for market evidence</text>
+
+ <rect x="60" y="100" width="420" height="120" class="card-tool" filter="url(#softShadow)"/>
+ <text x="270" y="135" text-anchor="middle" class="box-title">Firecrawl</text>
+ <text x="270" y="160" text-anchor="middle" class="mono">tools/firecrawl.py</text>
+ <text x="270" y="185" text-anchor="middle" class="tiny">web scrape | page evidence | market pages</text>
+ <text x="270" y="205" text-anchor="middle" class="tiny">FIRECRAWL_API_KEY</text>
+
+ <rect x="520" y="100" width="420" height="120" class="card-tool" filter="url(#softShadow)"/>
+ <text x="730" y="135" text-anchor="middle" class="box-title">Web Search</text>
+ <text x="730" y="160" text-anchor="middle" class="mono">tools/web_search.py</text>
+ <text x="730" y="185" text-anchor="middle" class="tiny">broad discovery | competitor scans</text>
+ <text x="730" y="205" text-anchor="middle" class="tiny">general market queries</text>
+
+ <rect x="980" y="100" width="420" height="120" class="card-tool" filter="url(#softShadow)"/>
+ <text x="1190" y="135" text-anchor="middle" class="box-title">Reddit (PRAW)</text>
+ <text x="1190" y="160" text-anchor="middle" class="mono">tools/reddit_praw.py</text>
+ <text x="1190" y="185" text-anchor="middle" class="tiny">community pains | sentiment</text>
+ <text x="1190" y="205" text-anchor="middle" class="tiny">REDDIT_CLIENT_ID / SECRET</text>
+
+ <rect x="1440" y="100" width="420" height="120" class="card-tool" filter="url(#softShadow)"/>
+ <text x="1650" y="135" text-anchor="middle" class="box-title">GitHub Search</text>
+ <text x="1650" y="160" text-anchor="middle" class="mono">tools/github_search.py</text>
+ <text x="1650" y="185" text-anchor="middle" class="tiny">build signals | repo activity</text>
+ <text x="1650" y="205" text-anchor="middle" class="tiny">GITHUB_TOKEN > Build Observer</text>
+
+ <rect x="1900" y="100" width="420" height="120" class="card-tool" filter="url(#softShadow)"/>
+ <text x="2110" y="135" text-anchor="middle" class="box-title">PostHog</text>
+ <text x="2110" y="160" text-anchor="middle" class="mono">tools/posthog_client.py</text>
+ <text x="2110" y="185" text-anchor="middle" class="tiny">funnel drops | observe node</text>
+ <text x="2110" y="205" text-anchor="middle" class="tiny">POSTHOG_API_KEY > Observe Agent</text>
+
+ <rect x="2360" y="100" width="520" height="120" class="card-tool" filter="url(#softShadow)"/>
+ <text x="2620" y="135" text-anchor="middle" class="box-title">Deepgram</text>
+ <text x="2620" y="160" text-anchor="middle" class="mono">tools/deepgram.py</text>
+ <text x="2620" y="185" text-anchor="middle" class="tiny">STT / TTS for voice orb</text>
+ <text x="2620" y="205" text-anchor="middle" class="tiny">DEEPGRAM_API_KEY (optional)</text>
+ </g>
+
+ <!-- ===================== L8 LLMS ===================== -->
+ <g transform="translate(120,2850)">
+ <rect width="1460" height="280" class="zone zone-llm" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L8 | LLM Layer (Google Gemini)</text>
+ <text x="30" y="68" class="tiny">Model split by job weight - Pro for judgment, Flash for volume</text>
+
+ <rect x="50" y="100" width="420" height="140" class="card-llm" filter="url(#softShadow)"/>
+ <text x="260" y="140" text-anchor="middle" class="box-title">Gemini 2.5 Pro</text>
+ <text x="260" y="165" text-anchor="middle" class="mono">llm/gemini.py | generate_pro</text>
+ <text x="260" y="190" text-anchor="middle" class="tiny">Orchestrator | Dialogue | Pivot</text>
+ <text x="260" y="210" text-anchor="middle" class="tiny">Diff Classifier | Export narrative</text>
+ <text x="260" y="230" text-anchor="middle" class="tiny">Core idea clarification</text>
+
+ <rect x="510" y="100" width="420" height="140" class="card-llm" filter="url(#softShadow)"/>
+ <text x="720" y="140" text-anchor="middle" class="box-title">Gemini Flash</text>
+ <text x="720" y="165" text-anchor="middle" class="mono">generate_flash</text>
+ <text x="720" y="190" text-anchor="middle" class="tiny">Researcher synthesis loops</text>
+ <text x="720" y="210" text-anchor="middle" class="tiny">Critique scoring</text>
+ <text x="720" y="230" text-anchor="middle" class="tiny">High-volume cheap passes</text>
+
+ <rect x="970" y="100" width="450" height="140" class="card-llm" filter="url(#softShadow)"/>
+ <text x="1195" y="140" text-anchor="middle" class="box-title">Tool-Calling Runtime</text>
+ <text x="1195" y="165" text-anchor="middle" class="mono">llm/orchestrator_llm.py</text>
+ <text x="1195" y="190" text-anchor="middle" class="tiny">generate_with_tools</text>
+ <text x="1195" y="210" text-anchor="middle" class="tiny">generate_text_resilient</text>
+ <text x="1195" y="230" text-anchor="middle" class="tiny">GeminiToolCall / Result types</text>
+ </g>
+
+ <!-- ===================== L8b DB ===================== -->
+ <g transform="translate(1620,2850)">
+ <rect width="1460" height="280" class="zone zone-db" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L8b | Persistence - MongoDB Atlas (single store)</text>
+ <text x="30" y="68" class="tiny">All API + agent ops share one async GraphStore | Atlas preferred, Memory fallback</text>
+
+ <rect x="40" y="95" width="220" height="70" class="card-db"/><text x="150" y="125" text-anchor="middle" class="label">Knowledge Graph</text><text x="150" y="145" text-anchor="middle" class="tiny">nodes | edges | conf</text>
+ <rect x="280" y="95" width="220" height="70" class="card-db"/><text x="390" y="125" text-anchor="middle" class="label">Agent Task Queue</text><text x="390" y="145" text-anchor="middle" class="tiny">pending ResearchTasks</text>
+ <rect x="520" y="95" width="220" height="70" class="card-db"/><text x="630" y="125" text-anchor="middle" class="label">Decision Journal</text><text x="630" y="145" text-anchor="middle" class="tiny">pivots | approvals</text>
+ <rect x="760" y="95" width="220" height="70" class="card-db"/><text x="870" y="125" text-anchor="middle" class="label">Event / Feed Log</text><text x="870" y="145" text-anchor="middle" class="tiny">agent activity history</text>
+ <rect x="1000" y="95" width="220" height="70" class="card-db"/><text x="1110" y="125" text-anchor="middle" class="label">Snapshots</text><text x="1110" y="145" text-anchor="middle" class="tiny">historical graph states</text>
+ <rect x="1240" y="95" width="180" height="70" class="card-db"/><text x="1330" y="125" text-anchor="middle" class="label">Dead Ends</text><text x="1330" y="145" text-anchor="middle" class="tiny">failed paths</text>
+
+ <rect x="40" y="185" width="220" height="70" class="card-db"/><text x="150" y="215" text-anchor="middle" class="label">Vector KB</text><text x="150" y="235" text-anchor="middle" class="tiny">product knowledge</text>
+ <rect x="280" y="185" width="220" height="70" class="card-db"/><text x="390" y="215" text-anchor="middle" class="label">Build Events</text><text x="390" y="235" text-anchor="middle" class="tiny">GitHub signals</text>
+ <rect x="520" y="185" width="220" height="70" class="card-db"/><text x="630" y="215" text-anchor="middle" class="label">Observe Events</text><text x="630" y="235" text-anchor="middle" class="tiny">PostHog funnels</text>
+ <rect x="760" y="185" width="660" height="70" class="card-db"/>
+ <text x="1090" y="215" text-anchor="middle" class="label">AtlasGraphStore | db/atlas_store.py | store_protocol.GraphStore</text>
+ <text x="1090" y="235" text-anchor="middle" class="tiny">MONGODB_URI required in prod | scripts/init_atlas_indexes.py | seed_knowledge_base.py</text>
+ </g>
+
+ <!-- ===================== L9 KNOWLEDGE GRAPH ===================== -->
+ <g transform="translate(120,3160)">
+ <rect width="2960" height="620" class="zone zone-graph" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">L9 | Living Knowledge Graph - 11 Canonical Nodes + Unlock Tech Tree</text>
+ <text x="30" y="68" class="tiny">graph/schema.py | unlock_engine.py - confidence e threshold unlocks children | custom_research nodes attach on demand</text>
+
+ <!-- Core -->
+ <rect x="1280" y="100" width="400" height="80" class="node-core" filter="url(#softShadow)"/>
+ <text x="1480" y="135" text-anchor="middle" class="box-title">CORE IDEA</text>
+ <text x="1480" y="158" text-anchor="middle" class="tiny">problem | solution | one_liner | Idea Framer</text>
+
+ <!-- Row 2 -->
+ <path d="M1480 180 L1480 210" class="arrow"/>
+ <path d="M1480 210 L700 210 L700 240" class="arrow"/>
+ <path d="M1480 210 L1480 240" class="arrow"/>
+ <path d="M1480 210 L2260 210 L2260 240" class="arrow"/>
+
+ <rect x="540" y="240" width="320" height="70" class="node" filter="url(#softShadow)"/>
+ <text x="700" y="270" text-anchor="middle" class="box-title">AUDIENCE</text>
+ <text x="700" y="292" text-anchor="middle" class="tiny">Audience Scout | e70 from core</text>
+
+ <rect x="1320" y="240" width="320" height="70" class="node" filter="url(#softShadow)"/>
+ <text x="1480" y="270" text-anchor="middle" class="box-title">MARKET INTEL</text>
+ <text x="1480" y="292" text-anchor="middle" class="tiny">Market Analyst | e70 from core</text>
+
+ <rect x="2100" y="240" width="320" height="70" class="node" filter="url(#softShadow)"/>
+ <text x="2260" y="270" text-anchor="middle" class="box-title">COMPETITORS</text>
+ <text x="2260" y="292" text-anchor="middle" class="tiny">Competitor Tracker | e70 from core</text>
+
+ <!-- Row 3 -->
+ <path d="M700 310 L700 340 L1000 340 L1000 370" class="arrow"/>
+ <path d="M1480 310 L1480 340 L1000 340" class="arrow-muted"/>
+ <path d="M700 310 L700 340 L1480 340 L1480 370" class="arrow"/>
+ <path d="M1480 310 L1480 340" class="arrow-muted"/>
+ <path d="M2260 310 L2260 340 L2260 370" class="arrow"/>
+ <path d="M1480 180 L1480 200" class="arrow-muted"/>
+ <path d="M1480 200 L2260 200" class="arrow-muted"/>
+
+ <rect x="840" y="370" width="320" height="70" class="node" filter="url(#softShadow)"/>
+ <text x="1000" y="400" text-anchor="middle" class="box-title">REVENUE</text>
+ <text x="1000" y="422" text-anchor="middle" class="tiny">needs Audience + Market e70</text>
+
+ <rect x="1320" y="370" width="320" height="70" class="node" filter="url(#softShadow)"/>
+ <text x="1480" y="400" text-anchor="middle" class="box-title">PRODUCT VISION</text>
+ <text x="1480" y="422" text-anchor="middle" class="tiny">needs Audience + Market e70</text>
+
+ <rect x="2100" y="370" width="320" height="70" class="node" filter="url(#softShadow)"/>
+ <text x="2260" y="400" text-anchor="middle" class="box-title">TECH STACK</text>
+ <text x="2260" y="422" text-anchor="middle" class="tiny">needs Competitors + Core e70</text>
+
+ <!-- Row 4 BUILD -->
+ <path d="M1000 440 L1000 470 L1480 470 L1480 500" class="arrow"/>
+ <path d="M2260 440 L2260 470 L1480 470" class="arrow-muted"/>
+
+ <rect x="1280" y="500" width="400" height="70" class="node" filter="url(#softShadow)"/>
+ <text x="1480" y="530" text-anchor="middle" class="box-title">BUILD</text>
+ <text x="1480" y="552" text-anchor="middle" class="tiny">needs Revenue + Tech | Build Observer / GitHub</text>
+
+ <!-- Row 5 -->
+ <path d="M1480 570 L1480 600" class="arrow"/>
+ <rect x="1280" y="600" width="180" height="60" class="node"/><text x="1370" y="635" text-anchor="middle" class="label">LAUNCH</text>
+ <path d="M1460 630 L1520 630" class="arrow"/>
+ <rect x="1520" y="600" width="180" height="60" class="node"/><text x="1610" y="635" text-anchor="middle" class="label">OBSERVE</text>
+ <path d="M1700 630 L1760 630" class="arrow"/>
+ <rect x="1760" y="600" width="180" height="60" class="node"/><text x="1850" y="635" text-anchor="middle" class="label">GROWTH</text>
+
+ <!-- Custom research floating -->
+ <rect x="80" y="500" width="360" height="140" class="card-accent" filter="url(#softShadow)"/>
+ <text x="260" y="540" text-anchor="middle" class="box-title">CUSTOM RESEARCH</text>
+ <text x="260" y="565" text-anchor="middle" class="tiny">spawned on demand</text>
+ <text x="260" y="588" text-anchor="middle" class="tiny">not locked to unlock tree</text>
+ <text x="260" y="610" text-anchor="middle" class="tiny">parallel Research Agents</text>
+
+ <!-- Status legend -->
+ <rect x="2320" y="500" width="580" height="140" class="card" filter="url(#softShadow)"/>
+ <text x="2610" y="535" text-anchor="middle" class="section-title">Node Status Model</text>
+ <text x="2380" y="570" class="label">validated | needs_work | blocking | locked</text>
+ <text x="2380" y="595" class="tiny">status_from_confidence() | SourcePill evidence</text>
+ <text x="2380" y="620" class="tiny">active_agents[] chips show who is working the node</text>
+ </g>
+
+ <!-- ===================== END-TO-END FLOW SUMMARY ===================== -->
+ <g transform="translate(120,3810)">
+ <rect width="2960" height="280" class="zone" filter="url(#softShadow)"/>
+ <text x="30" y="40" class="layer-title">End-to-End Connection Map - how it all becomes one system</text>
+
+ <text x="60" y="85" class="box-title">` Idea In</text>
+ <text x="60" y="110" class="tiny">User > Frontend > POST /workspace > graph born in Atlas</text>
+
+ <text x="520" y="85" class="box-title">a Orchestrate</text>
+ <text x="520" y="110" class="tiny">Master / Conversational Orchestrator reads graph, picks tools</text>
+
+ <text x="1040" y="85" class="box-title">b Plan &amp; Research</text>
+ <text x="1040" y="110" class="tiny">Planner queues tasks > Researchers pull tools > Critique scores</text>
+
+ <text x="1560" y="85" class="box-title">c Write Graph</text>
+ <text x="1560" y="110" class="tiny">Nodes update | unlock engine opens next layer | SSE paints UI</text>
+
+ <text x="2040" y="85" class="box-title">d Decide</text>
+ <text x="2040" y="110" class="tiny">Dialogue Q | Growth priority | Diff Classifier on pivot</text>
+
+ <text x="2480" y="85" class="box-title">e Ship</text>
+ <text x="2480" y="110" class="tiny">Export Agent zips scaffold when revenue+product+tech ready</text>
+
+ <!-- Connecting line -->
+ <path d="M200 140 L3000 140" class="arrow-thick"/>
+ <circle cx="200" cy="140" r="10" fill="#c47a3a"/>
+ <circle cx="660" cy="140" r="10" fill="#c47a3a"/>
+ <circle cx="1180" cy="140" r="10" fill="#c47a3a"/>
+ <circle cx="1700" cy="140" r="10" fill="#c47a3a"/>
+ <circle cx="2180" cy="140" r="10" fill="#c47a3a"/>
+ <circle cx="2620" cy="140" r="10" fill="#c47a3a"/>
+
+ <text x="60" y="185" class="label">Side loops that reconnect into the same spine:</text>
+ <text x="60" y="215" class="tiny">Voice Orb " Deepgram " Conversational Orchestrator " tools " same research/export paths</text>
+ <text x="60" y="240" class="tiny">Build Observer " GitHub " Build node | Observe Agent " PostHog " Observe node | Growth Agent " Today's Priority UI</text>
+ <text x="60" y="265" class="tiny">Pivot > Diff Classifier > surgical re-queue > Researchers > only affected nodes reset | everything still streams via SSE</text>
+ </g>
+
+ <!-- Footer -->
+ <text x="1600" y="4135" text-anchor="middle" class="footer">CoFounder Multi-Agent Architecture | SVG export | open in browser / Illustrator / Figma | file: docs/cofounder-multi-agent-architecture.svg</text>
+ <text x="1600" y="4160" text-anchor="middle" class="footer">Stack: Vite+React | FastAPI | MongoDB Atlas | Gemini Pro/Flash | SSE | Firecrawl | Reddit | GitHub | PostHog | Deepgram</text>
+</svg>

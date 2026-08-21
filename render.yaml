@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: CoFound
+    runtime: python
+    rootDir: backend
+    buildCommand: chmod +x build.sh start.sh && ./build.sh
+    startCommand: ./start.sh
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: CORS_ORIGINS
+        value: "https://cofounder-alpha.vercel.app,http://localhost:5173,http://127.0.0.1:5173"

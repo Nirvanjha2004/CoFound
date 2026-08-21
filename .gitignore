@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+frontend/.vercel/
+
+# Node
+node_modules/
+dist/
+*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+*.zip
+cloud_run/__pycache__/
+
+# Local-only agent instructions (never commit)
+LOCAL_AGENT_RULES.md
+
+# WakaTime (local project name override)
+.wakatime-project
