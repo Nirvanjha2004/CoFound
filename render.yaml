@@ -2,6 +2,7 @@ services:
   - type: web
     name: CoFound
     runtime: python
+    plan: free
     rootDir: backend
     buildCommand: chmod +x build.sh start.sh && ./build.sh
     startCommand: ./start.sh
